@@ -28,7 +28,7 @@ export default function Home() {
 
           {/* Sous-titre épuré */}
           <p className="text-xl text-text-secondary mb-12 max-w-2xl mx-auto">
-            Système de validation de deals utilisé par les membres Notify France
+            Système de validation de deals utilisé par les membres <span className="text-white">Notify</span> <span className="text-primary">France</span>
           </p>
 
           {/* CTA simple */}
