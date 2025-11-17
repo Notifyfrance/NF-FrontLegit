@@ -16,10 +16,10 @@
     /* 🌙 DARK MODE BACKGROUNDS */
     --bg-darkest: 0 0% 11%;          /* #1d1d1d Inputs */
     --bg-darker: 0 0% 13%;           /* #202020 Headers */
-    --bg-base: 0 0% 15%;             /* #252525 Background général */
+    --bg-base: 0 0% 10%;             /* #1a1a1a Background général - Plus foncé */
     --bg-card: 0 0% 17%;             /* #2c2c2c Cards */
 
-    --background: 0 0% 15%;          /* #252525 */
+    --background: 0 0% 10%;          /* #1a1a1a */
     --foreground: 0 0% 100%;         /* #ffffff */
 
     --card: 0 0% 17%;                /* #2c2c2c */
@@ -70,7 +70,7 @@
 
   .dark {
     /* Dark mode is default, but keeping for compatibility */
-    --background: 0 0% 15%;
+    --background: 0 0% 10%;
     --foreground: 0 0% 100%;
     --card: 0 0% 17%;
     --card-foreground: 0 0% 100%;
@@ -127,6 +127,14 @@
 
   .glow-badge-10 {
     box-shadow: 0 0 15px rgba(128, 255, 128, 0.4);
+  }
+  
+  /* Background avec grille subtile */
+  .bg-grid-pattern {
+    background-image: 
+      linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    background-size: 50px 50px;
   }
 
   /* 🌟 BLUR EFFECTS */
