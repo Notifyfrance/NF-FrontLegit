@@ -107,6 +107,38 @@ export default function Home() {
         </div>
       </section>
 
+      {/* CTA Section */}
+      <section className="py-20 px-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="bg-gradient-primary rounded-3xl p-12 md:p-16 text-center relative overflow-hidden shadow-glow-primary">
+            <div className="absolute inset-0 bg-primary opacity-90" />
+            <div className="relative z-10">
+              <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
+                Prêt à rejoindre la communauté ?
+              </h2>
+              <p className="text-lg md:text-xl text-white/90 mb-10 max-w-2xl mx-auto">
+                Rejoignez plus de 500 membres actifs et commencez à construire votre réputation dès aujourd'hui
+              </p>
+              <Button
+                size="lg"
+                className="bg-white text-primary hover:bg-white/90 font-bold px-10 py-6 text-lg rounded-full transition-all duration-300 hover:scale-105 shadow-lg"
+                asChild
+              >
+                <a
+                  href="https://discord.gg/notifyfrance"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2"
+                >
+                  Rejoindre Discord
+                  <span className="text-2xl">→</span>
+                </a>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <Footer />
     </div>
   );
