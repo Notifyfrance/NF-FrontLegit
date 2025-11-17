@@ -75,7 +75,7 @@ export default function Profile() {
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-badge-10 to-badge-5 rounded-2xl p-6 text-center shadow-glow-badge-10 flex-shrink-0">
+            <div className="bg-gradient-to-br from-primary to-primary-light rounded-2xl p-6 text-center shadow-glow-primary flex-shrink-0">
               <div className="text-5xl mb-2">{user.badge.icon}</div>
               <div className="text-white font-bold text-lg">
                 {user.badge.text}
