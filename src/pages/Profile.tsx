@@ -53,8 +53,8 @@ export default function Profile() {
               <h1 className="text-4xl font-bold text-white mb-2">
                 @{user.username}
               </h1>
-              <p className="text-text-muted mb-4">
-                Membre depuis {format(new Date(user.memberSince), 'MMMM yyyy', { locale: fr })}
+              <p className="text-white mb-4">
+                Membre de Notify <span className="text-primary">France</span>
               </p>
               
               <div className="flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
