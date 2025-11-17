@@ -1,10 +1,15 @@
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Link } from "react-router-dom";
-import { mockGlobalStats, mockTopMembers } from "@/lib/mockData";
+import { useGlobalStats } from "@/hooks/useGlobalStats";
+import { useTopMembers } from "@/hooks/useTopMembers";
 import logoNF from "@/assets/logo-nf.png";
 
 export default function Home() {
+  const { data: globalStats, isLoading: statsLoading } = useGlobalStats();
+  const { data: topMembers, isLoading: membersLoading } = useTopMembers(3);
+
   return (
     <div className="min-h-screen bg-bg-base bg-grid-pattern relative overflow-hidden">
       {/* Background decorations - Blurs multiples */}
@@ -57,11 +62,19 @@ export default function Home() {
           {/* Stats minimalistes en bas */}
           <div className="grid grid-cols-3 gap-8 mt-20 max-w-2xl mx-auto">
             <div>
-              <div className="text-4xl font-bold text-white mb-1">{mockGlobalStats.totalDeals}</div>
+              {statsLoading ? (
+                <Skeleton className="h-10 w-20 mx-auto mb-1" />
+              ) : (
+                <div className="text-4xl font-bold text-white mb-1">{globalStats?.totalDeals || 0}</div>
+              )}
               <div className="text-sm text-text-muted">Deals confirmés</div>
             </div>
             <div>
-              <div className="text-4xl font-bold text-white mb-1">{mockGlobalStats.activeMembers}</div>
+              {statsLoading ? (
+                <Skeleton className="h-10 w-20 mx-auto mb-1" />
+              ) : (
+                <div className="text-4xl font-bold text-white mb-1">{globalStats?.activeMembers || 0}</div>
+              )}
               <div className="text-sm text-text-muted">Vendeurs vérifiés</div>
             </div>
             <div>
@@ -80,36 +93,47 @@ export default function Home() {
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {mockTopMembers.slice(0, 3).map((seller) => (
-              <Link
-                key={seller.username}
-                to={`/${seller.username}`}
-                className="group bg-bg-card rounded-2xl p-8 border border-transparent hover:border-primary transition-all duration-300 hover:shadow-glow-primary hover:scale-105"
-              >
-                {/* Avatar centré */}
-                <div className="relative w-24 h-24 mx-auto mb-4">
-                  <img
-                    src={seller.avatar}
-                    className="w-full h-full rounded-full border-4 border-badge-10"
-                    alt={seller.username}
-                  />
-                  {/* Badge niveau petit en overlay */}
-                  <div className="absolute -bottom-2 -right-2 bg-badge-10 text-bg-base px-2 py-1 rounded-full text-xs font-bold">
-                    {seller.totalDeals}+
-                  </div>
+            {membersLoading ? (
+              // Skeleton loading pour top membres
+              Array.from({ length: 3 }).map((_, i) => (
+                <div key={i} className="bg-bg-card rounded-2xl p-8">
+                  <Skeleton className="w-24 h-24 mx-auto mb-4 rounded-full" />
+                  <Skeleton className="h-6 w-32 mx-auto mb-2" />
+                  <Skeleton className="h-4 w-24 mx-auto" />
                 </div>
+              ))
+            ) : (
+              topMembers?.map((seller) => (
+                <Link
+                  key={seller.username}
+                  to={`/${seller.username}`}
+                  className="group bg-bg-card rounded-2xl p-8 border border-transparent hover:border-primary transition-all duration-300 hover:shadow-glow-primary hover:scale-105"
+                >
+                  {/* Avatar centré */}
+                  <div className="relative w-24 h-24 mx-auto mb-4">
+                    <img
+                      src={seller.avatar}
+                      className="w-full h-full rounded-full border-4 border-badge-10"
+                      alt={seller.displayName}
+                    />
+                    {/* Badge niveau petit en overlay */}
+                    <div className="absolute -bottom-2 -right-2 bg-badge-10 text-bg-base px-2 py-1 rounded-full text-xs font-bold">
+                      {seller.totalDeals}+
+                    </div>
+                  </div>
 
-                {/* Username */}
-                <div className="text-center">
-                  <div className="text-white font-medium text-lg mb-1 group-hover:text-primary transition-colors">
-                    @{seller.username}
+                  {/* Display Name */}
+                  <div className="text-center">
+                    <div className="text-white font-medium text-lg mb-1 group-hover:text-primary transition-colors">
+                      {seller.displayName}
+                    </div>
+                    <div className="text-text-muted text-sm">
+                      {seller.totalDeals} deals confirmés
+                    </div>
                   </div>
-                  <div className="text-text-muted text-sm">
-                    {seller.totalDeals} deals confirmés
-                  </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              ))
+            )}
           </div>
         </div>
       </section>

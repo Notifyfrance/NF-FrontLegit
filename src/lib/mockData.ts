@@ -1,4 +1,6 @@
-// Mock data for development
+// Mock data - utilisé comme fallback et pour données non disponibles dans l'API
+// (reviews, topPartners, activities, stats détaillées, ranking, keyDates)
+// Les données réelles (totalDeals, badge, avatar, username) proviennent de l'API
 export interface UserProfile {
   userId: string;
   username: string;
