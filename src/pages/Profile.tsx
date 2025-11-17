@@ -62,8 +62,7 @@ export default function Profile() {
                   className="bg-primary hover:bg-primary-dark text-white px-6 py-3 rounded-full font-medium shadow-glow-primary transition-all duration-300 hover:scale-105"
                   onClick={() => window.open('https://discord.gg/notifyfrance', '_blank')}
                 >
-                  Rejoindre <span className="text-white">Notify</span>{' '}
-                  <span className="text-primary-light">France</span>
+                  Rejoindre Notify France
                 </Button>
                 
                 <button
