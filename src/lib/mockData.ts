@@ -6,6 +6,12 @@ export interface UserProfile {
   avatar: string;
   stats: {
     totalDeals: number;
+    confirmedDeals: number;
+    pendingDeals: number;
+    disputedDeals: number;
+    successRate: number;
+    uniquePartners: number;
+    averageDealsPerMonth: number;
     rating: number;
     reviewCount: number;
     responseRate: number;
@@ -19,6 +25,15 @@ export interface UserProfile {
     text: string;
     color: string;
     icon: string;
+  };
+  ranking: {
+    position: number;
+    totalMembers: number;
+    badge: string;
+  };
+  keyDates: {
+    firstDeal: string;
+    lastDeal: string;
   };
   memberSince: string;
   publicProfile: boolean;
@@ -45,13 +60,23 @@ export interface Review {
 }
 
 export interface Activity {
-  type: "deal_confirmed" | "badge_unlocked" | "milestone_reached";
+  id: string;
+  type: "deal" | "badge" | "milestone";
+  title: string;
+  description: string;
   date: string;
-  partner?: string;
-  category?: string;
-  rating?: number;
-  badge?: string;
   icon?: string;
+}
+
+export interface Partner {
+  username: string;
+  avatar: string;
+  dealCount: number;
+}
+
+export interface MonthlyData {
+  month: string;
+  deals: number;
 }
 
 export interface Badge {
@@ -74,13 +99,19 @@ export const mockUser: UserProfile = {
   avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=GattoGaming",
   stats: {
     totalDeals: 84,
+    confirmedDeals: 78,
+    pendingDeals: 4,
+    disputedDeals: 2,
+    successRate: 92.9,
+    uniquePartners: 45,
+    averageDealsPerMonth: 6.5,
     rating: 4.8,
     reviewCount: 82,
     responseRate: 95,
     avgResponseTime: "2h",
-    lastActive: new Date(Date.now() - 86400000).toISOString(),
+    lastActive: new Date().toISOString(),
     reliability: 100,
-    disputes: 0,
+    disputes: 2,
   },
   badge: {
     level: "10+ Deals",
@@ -88,23 +119,58 @@ export const mockUser: UserProfile = {
     color: "#80ff80",
     icon: "🥇",
   },
-  memberSince: "2025-05-15T10:30:00Z",
+  ranking: {
+    position: 3,
+    totalMembers: 156,
+    badge: "🥉",
+  },
+  keyDates: {
+    firstDeal: "2024-03-15T14:20:00Z",
+    lastDeal: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+  },
+  memberSince: "2024-01-10T10:30:00Z",
   publicProfile: true,
 };
 
+export const mockTopPartners: Partner[] = [
+  {
+    username: "sneakerlover",
+    avatar: "https://i.pravatar.cc/150?u=sneakerlover",
+    dealCount: 12,
+  },
+  {
+    username: "pokemonmaster",
+    avatar: "https://i.pravatar.cc/150?u=pokemonmaster",
+    dealCount: 8,
+  },
+  {
+    username: "resellpro",
+    avatar: "https://i.pravatar.cc/150?u=resellpro",
+    dealCount: 7,
+  },
+];
+
+export const mockMonthlyDealsData: MonthlyData[] = [
+  { month: "Oct 2024", deals: 8 },
+  { month: "Nov 2024", deals: 12 },
+  { month: "Déc 2024", deals: 15 },
+  { month: "Jan 2025", deals: 10 },
+  { month: "Fév 2025", deals: 14 },
+  { month: "Mar 2025", deals: 11 },
+];
+
 export const mockReviews: Review[] = [
   {
-    id: "deal_12345",
+    id: "1",
     reviewer: {
-      username: "acheteur1",
-      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=acheteur1",
+      username: "sneakerlover",
+      avatar: "https://i.pravatar.cc/150?u=sneakerlover",
       hasPublicProfile: true,
     },
     rating: 5,
-    comment:
-      "Transaction parfaite, envoi rapide et colis bien emballé. Vendeur sérieux et à l'écoute ! Je recommande à 100%.",
+    comment: "Deal ultra rapide, vendeur de confiance ! Jordan 1 authentiques.",
     category: "Sneakers",
-    date: new Date(Date.now() - 172800000).toISOString(),
+    date: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
     verified: true,
     helpful: 12,
     criteria: {
@@ -114,17 +180,16 @@ export const mockReviews: Review[] = [
     },
   },
   {
-    id: "deal_12346",
+    id: "2",
     reviewer: {
-      username: "acheteur2",
-      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=acheteur2",
+      username: "pokemonmaster",
+      avatar: "https://i.pravatar.cc/150?u=pokemonmaster",
       hasPublicProfile: true,
     },
     rating: 5,
-    comment:
-      "Super vendeur, communication au top. Les cartes étaient en parfait état, merci !",
+    comment: "Cartes Pokémon en excellent état, livraison soignée.",
     category: "Pokémon",
-    date: new Date(Date.now() - 432000000).toISOString(),
+    date: new Date(Date.now() - 12 * 24 * 60 * 60 * 1000).toISOString(),
     verified: true,
     helpful: 8,
     criteria: {
@@ -134,52 +199,98 @@ export const mockReviews: Review[] = [
     },
   },
   {
-    id: "deal_12347",
+    id: "3",
     reviewer: {
-      username: "membre_nf",
-      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=membre_nf",
-      hasPublicProfile: false,
+      username: "resellpro",
+      avatar: "https://i.pravatar.cc/150?u=resellpro",
+      hasPublicProfile: true,
     },
-    rating: 4,
-    comment: "Bon vendeur, juste un petit délai sur l'envoi mais la qualité était là.",
-    category: "Sneakers",
-    date: new Date(Date.now() - 604800000).toISOString(),
+    rating: 5,
+    comment: "Professionnel, réactif, je recommande à 100%.",
+    category: "Random Resell",
+    date: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000).toISOString(),
     verified: true,
-    helpful: 5,
+    helpful: 15,
     criteria: {
-      responseTime: "normal",
-      shipping: "normal",
-      packaging: "good",
+      responseTime: "fast",
+      shipping: "fast",
+      packaging: "excellent",
     },
   },
 ];
 
 export const mockActivities: Activity[] = [
   {
-    type: "deal_confirmed",
-    date: new Date(Date.now() - 172800000).toISOString(),
-    partner: "@acheteur1",
-    category: "Sneakers",
-    rating: 5,
+    id: "1",
+    type: "deal",
+    title: "Deal confirmé avec @sneakerlover",
+    description: "Jordan 1 Retro High OG",
+    date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
   },
   {
-    type: "deal_confirmed",
-    date: new Date(Date.now() - 432000000).toISOString(),
-    partner: "@acheteur2",
-    category: "Pokémon",
-    rating: 5,
+    id: "2",
+    type: "deal",
+    title: "Deal confirmé avec @pokemonmaster",
+    description: "Carte Pokémon Dracaufeu Holo",
+    date: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
   },
   {
-    type: "badge_unlocked",
-    date: new Date(Date.now() - 604800000).toISOString(),
-    badge: "10+ Deals",
+    id: "3",
+    type: "badge",
+    title: "Badge débloqué : Vendeur Expert",
+    description: "50+ deals confirmés",
+    date: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
     icon: "🥇",
   },
   {
-    type: "milestone_reached",
-    date: new Date(Date.now() - 1209600000).toISOString(),
-    badge: "50 Transactions",
-    icon: "🎯",
+    id: "4",
+    type: "deal",
+    title: "Deal confirmé avec @resellpro",
+    description: "Hoodie Supreme Box Logo",
+    date: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000).toISOString(),
+  },
+  {
+    id: "5",
+    type: "deal",
+    title: "Deal confirmé avec @kickscollector",
+    description: "Nike Dunk Low Panda",
+    date: new Date(Date.now() - 18 * 24 * 60 * 60 * 1000).toISOString(),
+  },
+  {
+    id: "6",
+    type: "deal",
+    title: "Deal confirmé avec @cardtrader",
+    description: "Lot Pokémon Rare",
+    date: new Date(Date.now() - 22 * 24 * 60 * 60 * 1000).toISOString(),
+  },
+  {
+    id: "7",
+    type: "deal",
+    title: "Deal confirmé avec @urbanstyle",
+    description: "Veste The North Face",
+    date: new Date(Date.now() - 28 * 24 * 60 * 60 * 1000).toISOString(),
+  },
+  {
+    id: "8",
+    type: "milestone",
+    title: "Palier atteint : 75 deals confirmés",
+    description: "Continue comme ça !",
+    date: new Date(Date.now() - 35 * 24 * 60 * 60 * 1000).toISOString(),
+    icon: "🎉",
+  },
+  {
+    id: "9",
+    type: "deal",
+    title: "Deal confirmé avec @fashionista",
+    description: "Sac Louis Vuitton",
+    date: new Date(Date.now() - 40 * 24 * 60 * 60 * 1000).toISOString(),
+  },
+  {
+    id: "10",
+    type: "deal",
+    title: "Deal confirmé avec @sneakerhead",
+    description: "Yeezy Boost 350 V2",
+    date: new Date(Date.now() - 45 * 24 * 60 * 60 * 1000).toISOString(),
   },
 ];
 
