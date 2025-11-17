@@ -1,185 +1,40 @@
-import { HeroSection } from "@/components/layout/hero-section";
 import { Footer } from "@/components/layout/footer";
-import { StatCard } from "@/components/ui/stat-card";
-import { BadgeDisplay } from "@/components/profile/badge-display";
-import { StarRating } from "@/components/profile/star-rating";
 import { Button } from "@/components/ui/button";
-import { Badge, Shield, TrendingUp, Users, CheckCircle, Zap, Lock, BarChart3, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { mockGlobalStats, mockTopMembers } from "@/lib/mockData";
+import logoNF from "@/assets/logo-nf.png";
 
 export default function Home() {
   return (
-    <div className="min-h-screen">
-      <HeroSection />
-
-      {/* Global Stats Section */}
-      <section className="container mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <StatCard
-            icon={CheckCircle}
-            value={mockGlobalStats.totalDeals}
-            label="Deals Confirmés"
-            variant="success"
-          />
-          <StatCard
-            icon={Users}
-            value={mockGlobalStats.activeMembers}
-            label="Membres Vérifiés"
-            variant="primary"
-          />
-          <StatCard
-            icon={TrendingUp}
-            value={`${mockGlobalStats.engagementRate}%`}
-            label="Taux d'engagement"
-            variant="primary"
-          />
-          <StatCard
-            icon={Badge}
-            value={`${mockGlobalStats.averageRating}/5`}
-            label="Note moyenne"
-            variant="success"
-          />
+    <div className="min-h-screen bg-bg-base">
+      {/* Hero Section - Full screen épuré */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-4">
+        {/* Blur orange subtil background */}
+        <div className="absolute inset-0 -z-10 opacity-30">
+          <div className="absolute top-1/3 left-1/3 w-[600px] h-[600px] bg-primary blur-[150px] rounded-full" />
         </div>
-      </section>
 
-      {/* How it works */}
-      <section className="container mx-auto px-4 py-16">
-        <h2 className="text-4xl font-bold text-center mb-12">Comment ça marche</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {[
-            {
-              step: 1,
-              icon: "🤝",
-              title: "Faites un deal",
-              desc: "Achetez ou vendez à un membre",
-            },
-            {
-              step: 2,
-              icon: "✅",
-              title: "Validez via Discord",
-              desc: "Confirmation mutuelle sécurisée",
-            },
-            {
-              step: 3,
-              icon: "🏆",
-              title: "Gagnez en crédibilité",
-              desc: "Profil mis à jour automatiquement",
-            },
-            {
-              step: 4,
-              icon: "🔗",
-              title: "Partagez votre lien",
-              desc: "Prouvez votre fiabilité partout",
-            },
-          ].map((item) => (
-            <div
-              key={item.step}
-              className="bg-bg-darker rounded-lg p-6 text-center border border-border hover:border-primary transition-all duration-300 hover:scale-105 animate-slide-up"
-              style={{ animationDelay: `${item.step * 0.1}s` }}
-            >
-              <div className="text-5xl mb-4">{item.icon}</div>
-              <div className="text-2xl font-bold text-primary mb-2">{item.step}</div>
-              <h3 className="text-xl font-bold mb-2">{item.title}</h3>
-              <p className="text-text-secondary text-sm">{item.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+        <div className="max-w-4xl mx-auto text-center">
+          {/* Logo NF subtil en haut */}
+          <div className="mb-8">
+            <img src={logoNF} className="w-16 h-16 mx-auto opacity-80" alt="Notify France" />
+          </div>
 
-      {/* Top Sellers */}
-      <section className="container mx-auto px-4 py-16">
-        <h2 className="text-4xl font-bold text-center mb-12">Top Vendeurs</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {mockTopMembers.map((member, index) => (
-            <Link
-              key={member.username}
-              to={`/${member.username}`}
-              className="bg-bg-card rounded-lg p-6 border border-border hover:border-primary transition-all duration-300 hover:scale-105 glow-primary-on-hover group animate-slide-up"
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              <div className="flex flex-col items-center text-center">
-                <div className="relative mb-4">
-                  <img
-                    src={member.avatar}
-                    alt={member.displayName}
-                    className="w-24 h-24 rounded-full border-4 border-badge-10 glow-badge-10"
-                  />
-                </div>
-                <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">
-                  @{member.username}
-                </h3>
-                <StarRating rating={member.rating} showValue className="mb-3" />
-                <div className="flex items-center gap-2 text-text-secondary mb-4">
-                  <Badge className="w-4 h-4" />
-                  <span className="font-semibold">{member.totalDeals} deals</span>
-                </div>
-                <BadgeDisplay
-                  level={member.badge.level as any}
-                  text="Expert"
-                  size="sm"
-                  className="w-full"
-                />
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
+          {/* Titre principal */}
+          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
+            Votre réputation,<br />
+            <span className="text-primary">prouvée</span> en 2 secondes
+          </h1>
 
-      {/* Why trust us */}
-      <section className="container mx-auto px-4 py-16">
-        <h2 className="text-4xl font-bold text-center mb-12">
-          Pourquoi nous faire confiance
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {[
-            {
-              icon: Lock,
-              title: "Sécurisé",
-              desc: "Validation double via Discord",
-              color: "text-badge-10",
-            },
-            {
-              icon: Zap,
-              title: "Instantané",
-              desc: "Profil mis à jour en temps réel",
-              color: "text-primary",
-            },
-            {
-              icon: BarChart3,
-              title: "Transparent",
-              desc: "Historique complet et vérifiable",
-              color: "text-badge-5",
-            },
-          ].map((feature, index) => (
-            <div
-              key={feature.title}
-              className="bg-bg-card rounded-lg p-8 border border-border hover:border-primary transition-all duration-300 hover:scale-105 animate-slide-up"
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              <feature.icon className={`w-12 h-12 mb-4 ${feature.color}`} />
-              <h3 className="text-2xl font-bold mb-3">{feature.title}</h3>
-              <p className="text-text-secondary">{feature.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+          {/* Sous-titre épuré */}
+          <p className="text-xl text-text-secondary mb-12 max-w-2xl mx-auto">
+            Système de validation de deals utilisé par les membres Notify France
+          </p>
 
-      {/* CTA Section */}
-      <section className="container mx-auto px-4 py-16">
-        <div className="bg-gradient-primary rounded-2xl p-12 text-center relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 blur-orange opacity-30" />
-          <div className="relative z-10">
-            <h2 className="text-4xl font-bold mb-4 text-white">
-              Prêt à rejoindre la communauté ?
-            </h2>
-            <p className="text-lg text-white/90 mb-8 max-w-2xl mx-auto">
-              Rejoignez plus de 500 membres actifs et commencez à construire votre
-              réputation dès aujourd'hui
-            </p>
+          {/* CTA simple */}
+          <div className="flex gap-4 justify-center">
             <Button
-              size="lg"
-              className="bg-white text-primary hover:bg-white/90 font-bold px-8 py-6 text-lg transition-all duration-300 hover:scale-105"
+              className="bg-primary hover:bg-primary-dark text-white px-8 py-4 text-lg rounded-full shadow-glow-primary transition-all duration-300 hover:scale-105"
               asChild
             >
               <a
@@ -187,9 +42,67 @@ export default function Home() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Rejoindre Discord <ArrowRight className="ml-2 w-5 h-5" />
+                Rejoindre Notify France
               </a>
             </Button>
+          </div>
+
+          {/* Stats minimalistes en bas */}
+          <div className="grid grid-cols-3 gap-8 mt-20 max-w-2xl mx-auto">
+            <div>
+              <div className="text-4xl font-bold text-white mb-1">{mockGlobalStats.totalDeals}</div>
+              <div className="text-sm text-text-muted">Deals confirmés</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold text-white mb-1">{mockGlobalStats.activeMembers}</div>
+              <div className="text-sm text-text-muted">Vendeurs vérifiés</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold text-primary mb-1">100%</div>
+              <div className="text-sm text-text-muted">Sécurisé</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Top Vendeurs - Simplifié */}
+      <section className="py-20 px-4">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-4xl font-bold text-white text-center mb-12">
+            Vendeurs de confiance
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {mockTopMembers.slice(0, 3).map((seller) => (
+              <Link
+                key={seller.username}
+                to={`/${seller.username}`}
+                className="group bg-bg-card rounded-2xl p-8 border border-transparent hover:border-primary transition-all duration-300 hover:shadow-glow-primary hover:scale-105"
+              >
+                {/* Avatar centré */}
+                <div className="relative w-24 h-24 mx-auto mb-4">
+                  <img
+                    src={seller.avatar}
+                    className="w-full h-full rounded-full border-4 border-badge-10"
+                    alt={seller.username}
+                  />
+                  {/* Badge niveau petit en overlay */}
+                  <div className="absolute -bottom-2 -right-2 bg-badge-10 text-bg-base px-2 py-1 rounded-full text-xs font-bold">
+                    {seller.totalDeals}+
+                  </div>
+                </div>
+
+                {/* Username */}
+                <div className="text-center">
+                  <div className="text-white font-medium text-lg mb-1 group-hover:text-primary transition-colors">
+                    @{seller.username}
+                  </div>
+                  <div className="text-text-muted text-sm">
+                    {seller.totalDeals} deals confirmés
+                  </div>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
