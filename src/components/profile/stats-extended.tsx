@@ -1,0 +1,54 @@
+import { TrendingUp, Users, Target, Calendar } from "lucide-react";
+
+interface StatsExtendedProps {
+  stats: {
+    confirmedDeals: number;
+    pendingDeals: number;
+    disputedDeals: number;
+    successRate: number;
+    uniquePartners: number;
+    averageDealsPerMonth: number;
+  };
+}
+
+export function StatsExtended({ stats }: StatsExtendedProps) {
+  return (
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {/* Deals confirmés */}
+      <div className="bg-bg-darker rounded-2xl p-5 border-l-4 border-badge-10 hover:scale-105 transition-all duration-300">
+        <div className="flex items-center gap-2 mb-2">
+          <Target className="w-4 h-4 text-badge-10" />
+          <span className="text-text-muted text-xs">Confirmés</span>
+        </div>
+        <div className="text-3xl font-bold text-white">{stats.confirmedDeals}</div>
+      </div>
+
+      {/* Deals en attente */}
+      <div className="bg-bg-darker rounded-2xl p-5 border-l-4 border-warning hover:scale-105 transition-all duration-300">
+        <div className="flex items-center gap-2 mb-2">
+          <Calendar className="w-4 h-4 text-warning" />
+          <span className="text-text-muted text-xs">En attente</span>
+        </div>
+        <div className="text-3xl font-bold text-white">{stats.pendingDeals}</div>
+      </div>
+
+      {/* Taux de réussite */}
+      <div className="bg-bg-darker rounded-2xl p-5 border-l-4 border-primary hover:scale-105 transition-all duration-300">
+        <div className="flex items-center gap-2 mb-2">
+          <TrendingUp className="w-4 h-4 text-primary" />
+          <span className="text-text-muted text-xs">Taux réussite</span>
+        </div>
+        <div className="text-3xl font-bold text-white">{stats.successRate}%</div>
+      </div>
+
+      {/* Partenaires uniques */}
+      <div className="bg-bg-darker rounded-2xl p-5 border-l-4 border-badge-5 hover:scale-105 transition-all duration-300">
+        <div className="flex items-center gap-2 mb-2">
+          <Users className="w-4 h-4 text-badge-5" />
+          <span className="text-text-muted text-xs">Partenaires</span>
+        </div>
+        <div className="text-3xl font-bold text-white">{stats.uniquePartners}</div>
+      </div>
+    </div>
+  );
+}
