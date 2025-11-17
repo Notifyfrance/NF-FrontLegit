@@ -1,8 +1,10 @@
 import { useParams, Navigate } from "react-router-dom";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { CheckCircle, Link as LinkIcon } from "lucide-react";
 import { mockUser, mockTopPartners, mockActivities } from "@/lib/mockData";
+import { useUserProfile } from "@/hooks/useUserProfile";
 import { toast } from "sonner";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
@@ -15,12 +17,35 @@ import { KeyDates } from "@/components/profile/key-dates";
 export default function Profile() {
   const { username } = useParams();
 
-  // For demo, only gattogaming exists
-  if (username !== "gattogaming") {
+  const { data: user, isLoading, error } = useUserProfile(username!);
+
+  // Si erreur 404, rediriger vers not-found
+  if (error && (error as any).status === 404) {
     return <Navigate to="/not-found" replace />;
   }
 
-  const user = mockUser;
+  // Afficher loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-bg-base py-6 md:py-12 px-3 md:px-4">
+        <div className="max-w-6xl mx-auto space-y-6 md:space-y-8">
+          <div className="bg-bg-card rounded-3xl p-6 md:p-8 shadow-2xl border border-primary/20">
+            <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
+              <Skeleton className="w-24 h-24 md:w-32 md:h-32 rounded-full" />
+              <div className="flex-1 space-y-2">
+                <Skeleton className="h-8 w-48 mx-auto md:mx-0" />
+                <Skeleton className="h-6 w-32 mx-auto md:mx-0" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <Navigate to="/not-found" replace />;
+  }
 
   const handleCopyLink = () => {
     const link = `${window.location.origin}/${username}`;
