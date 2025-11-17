@@ -122,7 +122,7 @@ export const mockUser: UserProfile = {
   ranking: {
     position: 3,
     totalMembers: 156,
-    badge: "🥉",
+    badge: "👨‍💻",
   },
   keyDates: {
     firstDeal: "2024-03-15T14:20:00Z",
