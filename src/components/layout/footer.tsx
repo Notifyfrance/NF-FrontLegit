@@ -11,11 +11,11 @@ export function Footer() {
 
         {/* Liens */}
         <div className="flex gap-6 text-sm">
-          <Link to="/" className="text-text-secondary hover:text-primary transition-colors">
+          <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-text-secondary hover:text-primary transition-colors">
             Accueil
           </Link>
-          
-          <a href="https://discord.gg/notifyfrance" target="_blank" rel="noopener noreferrer" className="text-text-secondary hover:text-primary transition-colors">
+
+          <a href="https://notify-france.fr" target="_blank" rel="noopener noreferrer" className="text-text-secondary hover:text-primary transition-colors">
             Discord
           </a>
         </div>

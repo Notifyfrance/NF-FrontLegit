@@ -37,7 +37,7 @@ export default function ProfileNotFound() {
             asChild
           >
             <a
-              href="https://discord.gg/notifyfrance"
+              href="https://notify-france.fr"
               target="_blank"
               rel="noopener noreferrer"
             >

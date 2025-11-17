@@ -50,7 +50,7 @@ export default function Home() {
               asChild
             >
               <a
-                href="https://discord.gg/notifyfrance"
+                href="https://notify-france.fr"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -156,7 +156,7 @@ export default function Home() {
                 asChild
               >
                 <a
-                  href="https://discord.gg/notifyfrance"
+                  href="https://notify-france.fr"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2"
