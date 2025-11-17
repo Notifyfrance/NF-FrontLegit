@@ -84,7 +84,7 @@ export default function Profile() {
               <div className="flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
                 <Button
                   className="bg-primary hover:bg-primary-dark text-white px-6 py-3 rounded-full font-medium shadow-glow-primary transition-all duration-300 hover:scale-105"
-                  onClick={() => window.open('https://discord.gg/notifyfrance', '_blank')}
+                  onClick={() => window.open('https://notify-france.fr', '_blank')}
                 >
                   Rejoindre Notify France
                 </Button>
