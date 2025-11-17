@@ -21,6 +21,8 @@ export default {
         foreground: "hsl(var(--foreground))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
+          light: "hsl(var(--primary-light))",
+          dark: "hsl(var(--primary-dark))",
           foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
@@ -57,6 +59,33 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        bg: {
+          darkest: "hsl(var(--bg-darkest))",
+          darker: "hsl(var(--bg-darker))",
+          base: "hsl(var(--bg-base))",
+          card: "hsl(var(--bg-card))",
+        },
+        text: {
+          primary: "hsl(var(--text-primary))",
+          secondary: "hsl(var(--text-secondary))",
+          muted: "hsl(var(--text-muted))",
+          inactive: "hsl(var(--text-inactive))",
+        },
+        badge: {
+          1: "hsl(var(--badge-1))",
+          5: "hsl(var(--badge-5))",
+          10: "hsl(var(--badge-10))",
+        },
+        success: "hsl(var(--success))",
+        warning: "hsl(var(--warning))",
+        danger: "hsl(var(--destructive))",
+        info: "hsl(var(--info))",
+      },
+      backgroundImage: {
+        "gradient-primary": "linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary-light)) 100%)",
+        "gradient-badge-1": "linear-gradient(135deg, hsl(var(--badge-1)) 0%, #00a03c 100%)",
+        "gradient-badge-5": "linear-gradient(135deg, hsl(var(--badge-5)) 0%, #40ff60 100%)",
+        "gradient-badge-10": "linear-gradient(135deg, hsl(var(--badge-10)) 0%, #a0ffa0 100%)",
       },
       borderRadius: {
         lg: "var(--radius)",
