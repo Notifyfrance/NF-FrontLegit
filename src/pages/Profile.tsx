@@ -2,14 +2,13 @@ import { useParams, Navigate } from "react-router-dom";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, Link as LinkIcon } from "lucide-react";
-import { mockUser, mockTopPartners, mockMonthlyDealsData, mockActivities } from "@/lib/mockData";
+import { mockUser, mockTopPartners, mockActivities } from "@/lib/mockData";
 import { toast } from "sonner";
-import { format, formatDistanceToNow } from "date-fns";
+import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import { StatsExtended } from "@/components/profile/stats-extended";
 import { RankingCard } from "@/components/profile/ranking-card";
 import { TopPartners } from "@/components/profile/top-partners";
-import { DealsChart } from "@/components/profile/deals-chart";
 import { DealsHistory } from "@/components/profile/deals-history";
 import { KeyDates } from "@/components/profile/key-dates";
 
@@ -95,9 +94,6 @@ export default function Profile() {
           <h2 className="text-xl md:text-2xl font-bold text-white mb-4 md:mb-6">📊 Statistiques Détaillées</h2>
           <StatsExtended stats={user.stats} />
         </div>
-
-        {/* GRAPHIQUE ÉVOLUTION */}
-        <DealsChart data={mockMonthlyDealsData} />
 
         {/* TOP 3 PARTENAIRES + HISTORIQUE */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
