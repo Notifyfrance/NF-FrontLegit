@@ -22,36 +22,36 @@ export function DealsHistory({ activities }: DealsHistoryProps) {
   };
 
   return (
-    <div className="bg-bg-card rounded-2xl p-6">
-      <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-        <span>📜</span> Historique des Deals (10 derniers)
+    <div className="bg-bg-card rounded-2xl p-4 md:p-6">
+      <h3 className="text-lg md:text-xl font-bold text-white mb-4 flex items-center gap-2">
+        <span>📜</span> Historique (10 derniers)
       </h3>
       
-      <div className="space-y-3">
+      <div className="space-y-2 md:space-y-3">
         {activities.slice(0, 10).map((activity) => (
           <div
             key={activity.id}
-            className="bg-bg-darker rounded-xl p-4 hover:bg-bg-base hover:border-l-4 hover:border-primary transition-all duration-300 group"
+            className="bg-bg-darker rounded-xl p-3 md:p-4 hover:bg-bg-base hover:border-l-4 hover:border-primary transition-all duration-300 group"
           >
-            <div className="flex items-start gap-4">
+            <div className="flex items-start gap-3">
               <div className="mt-1 flex-shrink-0">
                 {activity.icon ? (
-                  <span className="text-2xl">{activity.icon}</span>
+                  <span className="text-xl md:text-2xl">{activity.icon}</span>
                 ) : (
                   getIcon(activity.type)
                 )}
               </div>
               
               <div className="flex-1 min-w-0">
-                <div className="text-white font-medium group-hover:text-primary transition-colors">
+                <div className="text-white text-sm md:text-base font-medium group-hover:text-primary transition-colors">
                   {activity.title}
                 </div>
-                <div className="text-text-muted text-sm mt-1">
+                <div className="text-text-muted text-xs md:text-sm mt-1 truncate">
                   {activity.description}
                 </div>
               </div>
               
-              <div className="text-text-inactive text-xs whitespace-nowrap">
+              <div className="text-text-inactive text-xs whitespace-nowrap flex-shrink-0">
                 {formatDistanceToNow(new Date(activity.date), { locale: fr, addSuffix: true })}
               </div>
             </div>
