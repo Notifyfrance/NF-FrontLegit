@@ -95,11 +95,11 @@ export default function Profile() {
           <StatsExtended stats={user.stats} />
         </div>
 
-        {/* TOP 3 PARTENAIRES + HISTORIQUE */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
-          <TopPartners partners={mockTopPartners} />
-          <DealsHistory activities={mockActivities} />
-        </div>
+        {/* HISTORIQUE */}
+        <DealsHistory activities={mockActivities} />
+
+        {/* TOP 3 PARTENAIRES */}
+        <TopPartners partners={mockTopPartners} />
 
         {/* DATES CLÉS */}
         <div className="bg-bg-card rounded-3xl p-6 md:p-8 shadow-xl border border-primary/10">
