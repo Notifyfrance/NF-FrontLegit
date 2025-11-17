@@ -32,15 +32,15 @@ export default function Profile() {
   };
 
   return (
-    <div className="min-h-screen bg-bg-base py-12 px-4">
-      <div className="max-w-6xl mx-auto space-y-8">
+    <div className="min-h-screen bg-bg-base py-6 md:py-12 px-3 md:px-4">
+      <div className="max-w-6xl mx-auto space-y-6 md:space-y-8">
         {/* HEADER - Avatar + Info de base */}
-        <div className="bg-bg-card rounded-3xl p-8 shadow-2xl border border-primary/20">
-          <div className="flex flex-col md:flex-row items-center gap-6">
+        <div className="bg-bg-card rounded-3xl p-6 md:p-8 shadow-2xl border border-primary/20">
+          <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
             <div className="relative flex-shrink-0">
               <img
                 src={user.avatar}
-                className="w-32 h-32 rounded-full border-4 border-badge-10 shadow-glow-badge-10"
+                className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-primary shadow-glow-primary"
                 alt={user.username}
               />
               <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-primary text-white px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1 whitespace-nowrap">
@@ -50,7 +50,7 @@ export default function Profile() {
             </div>
 
             <div className="flex-1 text-center md:text-left">
-              <h1 className="text-4xl font-bold text-white mb-2">
+              <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
                 @{user.username}
               </h1>
               <p className="text-white mb-4">
@@ -75,9 +75,9 @@ export default function Profile() {
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-primary to-primary-light rounded-2xl p-6 text-center shadow-glow-primary flex-shrink-0">
-              <div className="text-5xl mb-2">{user.badge.icon}</div>
-              <div className="text-white font-bold text-lg">
+            <div className="bg-gradient-to-br from-primary to-primary-light rounded-2xl p-5 md:p-6 text-center shadow-glow-primary flex-shrink-0">
+              <div className="text-4xl md:text-5xl mb-2">{user.badge.icon}</div>
+              <div className="text-white font-bold text-base md:text-lg">
                 {user.badge.text}
               </div>
               <div className="text-white/80 text-sm">
@@ -91,8 +91,8 @@ export default function Profile() {
         <RankingCard ranking={user.ranking} />
 
         {/* STATISTIQUES ÉTENDUES */}
-        <div className="bg-bg-card rounded-3xl p-8 shadow-xl border border-primary/10">
-          <h2 className="text-2xl font-bold text-white mb-6">📊 Statistiques Détaillées</h2>
+        <div className="bg-bg-card rounded-3xl p-6 md:p-8 shadow-xl border border-primary/10">
+          <h2 className="text-xl md:text-2xl font-bold text-white mb-4 md:mb-6">📊 Statistiques Détaillées</h2>
           <StatsExtended stats={user.stats} />
         </div>
 
@@ -100,14 +100,14 @@ export default function Profile() {
         <DealsChart data={mockMonthlyDealsData} />
 
         {/* TOP 3 PARTENAIRES + HISTORIQUE */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
           <TopPartners partners={mockTopPartners} />
           <DealsHistory activities={mockActivities} />
         </div>
 
         {/* DATES CLÉS */}
-        <div className="bg-bg-card rounded-3xl p-8 shadow-xl border border-primary/10">
-          <h2 className="text-2xl font-bold text-white mb-6">📅 Dates Clés</h2>
+        <div className="bg-bg-card rounded-3xl p-6 md:p-8 shadow-xl border border-primary/10">
+          <h2 className="text-xl md:text-2xl font-bold text-white mb-4 md:mb-6">📅 Dates Clés</h2>
           <KeyDates keyDates={user.keyDates} memberSince={user.memberSince} />
         </div>
       </div>
