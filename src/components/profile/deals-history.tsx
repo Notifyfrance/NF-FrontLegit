@@ -4,7 +4,6 @@ import { CheckCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface DealHistoryItem {
-  partnerId: string;
   partnerUsername: string;
   partnerAvatar: string;
   object: string;
@@ -39,12 +38,12 @@ export function DealsHistory({ history }: DealsHistoryProps) {
       <div className="space-y-2 md:space-y-3">
         {history.slice(0, 10).map((deal, index) => (
           <div
-            key={`${deal.partnerId}-${index}`}
+            key={`${deal.partnerUsername}-${index}`}
             className="bg-bg-darker rounded-xl p-3 md:p-4 hover:bg-bg-base hover:border-l-4 hover:border-primary transition-all duration-300 group"
           >
             <div className="flex items-start gap-3">
               <div className="mt-1 flex-shrink-0">
-                <Link to={`/${deal.partnerId}`}>
+                <Link to={`/${deal.partnerUsername}`}>
                   <img
                     src={deal.partnerAvatar}
                     alt={deal.partnerUsername}
@@ -56,7 +55,7 @@ export function DealsHistory({ history }: DealsHistoryProps) {
               <div className="flex-1 min-w-0">
                 <div className="text-white text-sm md:text-base font-medium group-hover:text-primary transition-colors">
                   Deal avec{" "}
-                  <Link to={`/${deal.partnerId}`} className="hover:underline">
+                  <Link to={`/${deal.partnerUsername}`} className="hover:underline">
                     @{deal.partnerUsername}
                   </Link>
                 </div>

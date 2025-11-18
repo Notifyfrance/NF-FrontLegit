@@ -8,7 +8,6 @@ export interface ApiBadge {
 }
 
 export interface ApiDealHistory {
-  partnerId: string;
   partnerUsername: string;
   partnerAvatar: string;
   object: string;
@@ -17,7 +16,6 @@ export interface ApiDealHistory {
 }
 
 export interface ApiTopPartner {
-  userId: string;
   username: string;
   avatar: string;
   dealsCount: number;

@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 
 interface TopPartner {
-  userId: string;
   username: string;
   avatar: string;
   dealsCount: number;
@@ -34,8 +33,8 @@ export function TopPartners({ partners }: TopPartnersProps) {
       <div className="space-y-3">
         {partners.map((partner, index) => (
           <Link
-            key={partner.userId}
-            to={`/${partner.userId}`}
+            key={partner.username}
+            to={`/${partner.username}`}
             className="flex items-center gap-3 bg-bg-darker rounded-xl p-3 hover:bg-bg-base hover:scale-105 transition-all duration-300 group"
           >
             <div className="relative flex-shrink-0">
