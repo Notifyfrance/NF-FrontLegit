@@ -3,11 +3,8 @@ import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CheckCircle, Link as LinkIcon } from "lucide-react";
-import { mockUser, mockTopPartners, mockActivities } from "@/lib/mockData";
 import { useUserProfile } from "@/hooks/useUserProfile";
 import { toast } from "sonner";
-import { format } from "date-fns";
-import { fr } from "date-fns/locale";
 import { StatsExtended } from "@/components/profile/stats-extended";
 import { RankingCard } from "@/components/profile/ranking-card";
 import { TopPartners } from "@/components/profile/top-partners";
@@ -121,10 +118,10 @@ export default function Profile() {
         </div>
 
         {/* HISTORIQUE */}
-        <DealsHistory activities={mockActivities} />
+        <DealsHistory history={user.history || []} />
 
         {/* TOP 3 PARTENAIRES */}
-        <TopPartners partners={mockTopPartners} />
+        <TopPartners partners={user.topPartners || []} />
 
         {/* DATES CLÉS */}
         <div className="bg-bg-card rounded-3xl p-6 md:p-8 shadow-xl border border-primary/10">

@@ -1,22 +1,41 @@
-import { Partner } from "@/lib/mockData";
 import { Link } from "react-router-dom";
 
+interface TopPartner {
+  userId: string;
+  username: string;
+  avatar: string;
+  dealsCount: number;
+}
+
 interface TopPartnersProps {
-  partners: Partner[];
+  partners: TopPartner[];
 }
 
 export function TopPartners({ partners }: TopPartnersProps) {
+  if (partners.length === 0) {
+    return (
+      <div className="bg-bg-card rounded-2xl p-4 md:p-6">
+        <h3 className="text-lg md:text-xl font-bold text-white mb-4 flex items-center gap-2">
+          <span>🤝</span> Top 3 Partenaires
+        </h3>
+        <div className="text-text-muted text-center py-8">
+          Aucun partenaire récurrent
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-bg-card rounded-2xl p-4 md:p-6">
       <h3 className="text-lg md:text-xl font-bold text-white mb-4 flex items-center gap-2">
         <span>🤝</span> Top 3 Partenaires
       </h3>
-      
+
       <div className="space-y-3">
         {partners.map((partner, index) => (
           <Link
-            key={partner.username}
-            to={`/${partner.username}`}
+            key={partner.userId}
+            to={`/${partner.userId}`}
             className="flex items-center gap-3 bg-bg-darker rounded-xl p-3 hover:bg-bg-base hover:scale-105 transition-all duration-300 group"
           >
             <div className="relative flex-shrink-0">
@@ -29,18 +48,18 @@ export function TopPartners({ partners }: TopPartnersProps) {
                 {index + 1}
               </div>
             </div>
-            
+
             <div className="flex-1 min-w-0">
               <div className="text-white text-sm md:text-base font-medium group-hover:text-primary transition-colors truncate">
                 @{partner.username}
               </div>
               <div className="text-text-muted text-xs md:text-sm">
-                {partner.dealCount} deals
+                {partner.dealsCount} deals
               </div>
             </div>
-            
+
             <div className="text-primary text-xl md:text-2xl font-bold flex-shrink-0">
-              {partner.dealCount}
+              {partner.dealsCount}
             </div>
           </Link>
         ))}

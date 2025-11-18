@@ -2,12 +2,10 @@ import { TrendingUp, Users, Target, Calendar } from "lucide-react";
 
 interface StatsExtendedProps {
   stats: {
-    confirmedDeals: number;
-    pendingDeals: number;
-    disputedDeals: number;
+    confirmed: number;
+    pending: number;
     successRate: number;
-    uniquePartners: number;
-    averageDealsPerMonth: number;
+    partnersCount: number;
   };
 }
 
@@ -20,7 +18,7 @@ export function StatsExtended({ stats }: StatsExtendedProps) {
           <Target className="w-4 h-4 text-primary" />
           <span className="text-text-muted text-xs">Confirmés</span>
         </div>
-        <div className="text-3xl md:text-4xl font-bold text-white">{stats.confirmedDeals}</div>
+        <div className="text-3xl md:text-4xl font-bold text-white">{stats.confirmed}</div>
       </div>
 
       {/* Deals en attente */}
@@ -29,7 +27,7 @@ export function StatsExtended({ stats }: StatsExtendedProps) {
           <Calendar className="w-4 h-4 text-warning" />
           <span className="text-text-muted text-xs">En attente</span>
         </div>
-        <div className="text-3xl md:text-4xl font-bold text-white">{stats.pendingDeals}</div>
+        <div className="text-3xl md:text-4xl font-bold text-white">{stats.pending}</div>
       </div>
 
       {/* Taux de réussite */}
@@ -47,7 +45,7 @@ export function StatsExtended({ stats }: StatsExtendedProps) {
           <Users className="w-4 h-4 text-primary" />
           <span className="text-text-muted text-xs">Partenaires</span>
         </div>
-        <div className="text-3xl md:text-4xl font-bold text-white">{stats.uniquePartners}</div>
+        <div className="text-3xl md:text-4xl font-bold text-white">{stats.partnersCount}</div>
       </div>
     </div>
   );
