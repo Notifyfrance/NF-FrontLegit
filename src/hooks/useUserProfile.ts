@@ -25,7 +25,7 @@ export function useUserProfile(username: string) {
     },
     meta: {
       onError: (error: any) => {
-        if (error?.status !== 404) {
+        if (error?.status !== 404 && import.meta.env.DEV) {
           console.error('Error fetching user profile:', error);
         }
       },

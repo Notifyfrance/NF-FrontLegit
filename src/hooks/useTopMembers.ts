@@ -10,7 +10,9 @@ export function useTopMembers(limit: number = 3) {
     retry: 2,
     meta: {
       onError: (error: Error) => {
-        console.error('Error fetching top members:', error);
+        if (import.meta.env.DEV) {
+          console.error('Error fetching top members:', error);
+        }
       },
     },
   });
