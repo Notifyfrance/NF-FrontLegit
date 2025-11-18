@@ -10,7 +10,9 @@ export function useGlobalStats() {
     retry: 2,
     meta: {
       onError: (error: Error) => {
-        console.error('Error fetching global stats:', error);
+        if (import.meta.env.DEV) {
+          console.error('Error fetching global stats:', error);
+        }
       },
     },
   });

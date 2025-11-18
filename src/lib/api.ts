@@ -42,7 +42,10 @@ async function fetchApi<T>(endpoint: string): Promise<T> {
     }
 
     // Erreur réseau ou autre
-    console.error(`Error fetching ${endpoint}:`, error);
+    // Log uniquement en développement (pas en production)
+    if (import.meta.env.DEV) {
+      console.error(`Error fetching ${endpoint}:`, error);
+    }
     throw new ApiError(
       `Network error while fetching ${endpoint}`,
       undefined,
