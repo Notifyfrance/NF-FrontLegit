@@ -1,0 +1,438 @@
+# NF-LegitCheck Frontend
+
+## 📋 Project Overview
+
+**NF-LegitCheck** is a reputation system frontend for the Notify France Discord community, allowing members to showcase their verified trading history and build trust through validated deals.
+
+**Purpose:** Provide a public-facing profile system where community members can:
+- Display their trading reputation and statistics
+- Prove their credibility through verified deal counts
+- Earn badges based on trading activity
+- View global community statistics
+
+**Key Features:**
+- User profile pages with detailed statistics
+- Global stats dashboard (total deals, active members)
+- Top sellers leaderboard
+- Badge system (1 Deal, 5 Deals, 10+ Deals)
+- Deal history and partner tracking
+- Responsive design with dark theme
+
+## 🏗️ Architecture
+
+**Framework:** React 18 + TypeScript + Vite
+**Language:** TypeScript (strict mode)
+**Build Tool:** Vite 5 with SWC plugin for fast compilation
+**Hosting:** Lovable.dev (development platform)
+**Router:** React Router v6 (client-side routing)
+**State Management:** TanStack Query (React Query) for API data caching
+**UI Library:** shadcn/ui components with Radix UI primitives
+**Styling:** Tailwind CSS with custom theme and animations
+
+**Backend Integration:**
+- Production API: https://api.nf-legit.me
+- Local dev: http://localhost:3000
+- Environment-based URL configuration via VITE_API_URL
+
+**Data Strategy:**
+- Real data from API: username, avatar, totalDeals, badge, memberSince, lastActive
+- Mock data fallback: detailed stats, rankings, reviews, partners, charts
+- Hybrid approach during API development phase
+
+## 📁 Project Structure
+
+```
+NF-FrontLegit/
+├── .claude/                    # Project documentation
+│   └── CLAUDE.md              # This file
+├── public/                     # Static assets
+├── src/
+│   ├── assets/                # Images, logos
+│   │   └── logo-nf.png       # Notify France logo
+│   ├── components/
+│   │   ├── layout/           # Layout components
+│   │   │   └── footer.tsx    # Site footer
+│   │   ├── profile/          # Profile-specific components
+│   │   │   ├── badge-display.tsx
+│   │   │   ├── deals-chart.tsx
+│   │   │   ├── deals-history.tsx
+│   │   │   ├── key-dates.tsx
+│   │   │   ├── ranking-card.tsx
+│   │   │   ├── star-rating.tsx
+│   │   │   ├── stats-extended.tsx
+│   │   │   └── top-partners.tsx
+│   │   └── ui/               # shadcn/ui components (40+ components)
+│   │       ├── button.tsx
+│   │       ├── card.tsx
+│   │       ├── skeleton.tsx
+│   │       ├── toast.tsx
+│   │       └── ...
+│   ├── hooks/
+│   │   ├── useGlobalStats.ts     # Fetch global statistics
+│   │   ├── useTopMembers.ts      # Fetch top sellers
+│   │   ├── useUserProfile.ts     # Fetch user profile data
+│   │   ├── use-mobile.tsx        # Responsive breakpoint hook
+│   │   └── use-toast.ts          # Toast notifications
+│   ├── lib/
+│   │   ├── api.ts                # API client functions
+│   │   ├── types.ts              # TypeScript interfaces
+│   │   ├── mockData.ts           # Mock data for development
+│   │   └── utils.ts              # Utility functions (cn, etc.)
+│   ├── pages/
+│   │   ├── Home.tsx              # Landing page (/)
+│   │   ├── Profile.tsx           # User profile (/:username)
+│   │   ├── ProfileNotFound.tsx   # 404 for non-existent users
+│   │   ├── NotFound.tsx          # Generic 404
+│   │   └── Index.tsx             # Root index
+│   ├── App.tsx                   # App router and providers
+│   ├── main.tsx                  # Entry point
+│   └── index.css                 # Global styles + Tailwind
+├── .env.example                  # Environment variables template
+├── .env.local                    # Local environment (not committed)
+├── package.json                  # Dependencies
+├── vite.config.ts               # Vite configuration
+├── tailwind.config.ts           # Tailwind theme customization
+├── tsconfig.json                # TypeScript config
+└── components.json              # shadcn/ui config
+```
+
+## 💾 Data Models
+
+### API Response Types
+
+#### ApiUserProfile
+```typescript
+{
+  userId: string;           // Discord user ID
+  username: string;         // Discord username
+  displayName: string;      // Display name
+  avatar: string;           // Avatar URL
+  stats: {
+    totalDeals: number;     // Confirmed deals count
+  };
+  badge: {
+    level: string;          // "1 Deal" | "5 Deals" | "10+ Deals"
+    text: string;           // Badge display text
+    color: string;          // Badge color (hex)
+    icon: string;           // Badge emoji
+  };
+  memberSince: string;      // ISO date string
+  lastActive: string;       // ISO date string
+  publicProfile: boolean;   // Profile visibility
+}
+```
+
+#### ApiGlobalStats
+```typescript
+{
+  totalDeals: number;       // Total deals across platform
+  activeMembers: number;    // Number of active members
+}
+```
+
+#### ApiTopMember
+```typescript
+{
+  username: string;         // Discord username
+  displayName: string;      // Display name
+  avatar: string;           // Avatar URL
+  totalDeals: number;       // Confirmed deals
+  badge: {
+    level: string;
+    color: string;
+  };
+}
+```
+
+### Frontend Extended Types
+
+The frontend extends API data with mock data for features not yet in the API:
+
+```typescript
+UserProfile {
+  // API data (real)
+  userId, username, displayName, avatar, totalDeals, badge, memberSince, lastActive
+
+  // Mock data (temporary until API ready)
+  stats: {
+    confirmedDeals, pendingDeals, disputedDeals, successRate,
+    uniquePartners, averageDealsPerMonth, rating, reviewCount,
+    responseRate, avgResponseTime, reliability, disputes
+  }
+  ranking: { position, totalMembers, badge }
+  keyDates: { firstDeal, lastDeal }
+  monthlyDealsData: Array<{ month, deals }>
+}
+```
+
+## 🔌 API Endpoints
+
+Base URL: `${VITE_API_URL}` (configurable)
+
+### GET /api/stats/global
+Fetch global platform statistics
+- Response: `ApiGlobalStats`
+- Cache: 5 minutes
+- Fallback: mockGlobalStats
+
+### GET /api/top-members?limit=3
+Fetch top sellers/traders
+- Query param: `limit` (default: 3)
+- Response: `ApiTopMember[]`
+- Cache: 5 minutes
+- Fallback: mockTopMembers
+
+### GET /api/user/:username
+Fetch user profile by Discord username
+- Params: `username` (string)
+- Response: `ApiUserProfile`
+- Cache: 5 minutes
+- Error handling: 404 redirects to ProfileNotFound page
+- Transform: Merged with mockData via `transformUserProfile()`
+
+## ⚙️ Configuration
+
+### Environment Variables
+
+```bash
+# .env.example
+VITE_API_URL=https://api.nf-legit.me
+
+# For local development with backend:
+# VITE_API_URL=http://localhost:3000
+```
+
+**Important:**
+- Never commit `.env.local` to repository
+- Always update `.env.example` when adding new variables
+- Variables must start with `VITE_` to be accessible in client code
+
+### Build Modes
+
+```bash
+# Development build (with component tagger)
+npm run build:dev
+
+# Production build
+npm run build
+
+# Dev server
+npm run dev
+```
+
+## 📦 Dependencies
+
+### Core Framework
+- `react` (^18.3.1) - UI library
+- `react-dom` (^18.3.1) - React DOM renderer
+- `react-router-dom` (^6.30.1) - Client-side routing
+- `typescript` (^5.8.3) - Type safety
+- `vite` (^5.4.19) - Build tool
+
+### State Management & Data Fetching
+- `@tanstack/react-query` (^5.83.0) - Server state management, caching, and data fetching
+
+### UI Components
+- `@radix-ui/*` - Headless UI primitives (40+ packages)
+- `lucide-react` (^0.462.0) - Icon library
+- `sonner` (^1.7.4) - Toast notifications
+- `recharts` (^2.15.4) - Charts and data visualization
+
+### Forms & Validation
+- `react-hook-form` (^7.61.1) - Form state management
+- `@hookform/resolvers` (^3.10.0) - Form validation resolvers
+- `zod` (^3.25.76) - Schema validation
+
+### Styling
+- `tailwindcss` (^3.4.17) - Utility-first CSS
+- `tailwindcss-animate` (^1.0.7) - Animation utilities
+- `tailwind-merge` (^2.6.0) - Merge Tailwind classes
+- `class-variance-authority` (^0.7.1) - Component variants
+- `clsx` (^2.1.1) - Conditional class names
+- `next-themes` (^0.3.0) - Dark mode support
+
+### Utilities
+- `date-fns` (^3.6.0) - Date manipulation and formatting (used with `fr` locale)
+- `embla-carousel-react` (^8.6.0) - Carousel component
+- `react-resizable-panels` (^2.1.9) - Resizable panels
+
+### Development Tools
+- `@vitejs/plugin-react-swc` (^3.11.0) - Fast React refresh with SWC
+- `lovable-tagger` (^1.1.11) - Component tagging for Lovable platform
+- `eslint` (^9.32.0) - Code linting
+- `autoprefixer` (^10.4.21) - CSS vendor prefixing
+
+## 🚀 Deployment
+
+**Platform:** Vercel
+- Production: https://nf-legit.me
+- Automatic deployments on push to main branch
+- Branch previews for pull requests
+- Custom domain configured
+
+**Backend API:** Railway
+- Production API: https://api.nf-legit.me
+- Auto-restart on push/commit
+- Environment-based URL via `VITE_API_URL`
+
+**Build Process:**
+1. `npm run build` - Creates optimized production bundle
+2. Static files generated in `dist/` directory
+3. Vercel handles hosting and CDN distribution
+
+**Environment:**
+- Production API URL configured via environment variable
+- SWC for fast TypeScript compilation
+- Tree-shaking and code splitting enabled
+
+## 🔐 Security
+
+**Authentication:** Not implemented in frontend
+- Backend handles Discord OAuth
+- Frontend displays public profile data only
+- No sensitive operations in client code
+
+**API Communication:**
+- HTTPS only in production
+- No authentication tokens stored in frontend
+- CORS handled by backend
+
+**Environment Variables:**
+- Never commit `.env.local`
+- API keys (if any) must be server-side only
+- Public data only exposed to client
+
+## 📝 Development Notes
+
+### Code Patterns
+
+**Component Structure:**
+- Functional components with TypeScript
+- Hooks for state and side effects
+- Props typed with interfaces
+- Exported as default when single component per file
+
+**Data Fetching:**
+- TanStack Query hooks in `src/hooks/`
+- 5-minute stale time for all queries
+- Custom `ApiError` class with status codes and endpoint tracking
+- Retry logic: 2 retries by default, no retry on 404 errors
+- Error boundaries for failed requests
+- Loading skeletons (`Skeleton` component) during fetch
+- `placeholderData` strategy for immediate mock fallback
+
+**Styling:**
+- Tailwind utility classes
+- Custom theme in `tailwind.config.ts`
+- CSS variables for colors (HSL format)
+- Responsive breakpoints: sm, md, lg, xl, 2xl
+
+**Routing:**
+- `/` - Home page (landing)
+- `/:username` - User profile
+- `/not-found` - Profile not found (404)
+- `/*` - Generic 404 catch-all
+
+### Important Conventions
+
+1. **Component Naming:**
+   - PascalCase for components
+   - kebab-case for file names in ui/
+   - Descriptive names (e.g., `stats-extended.tsx`)
+
+2. **Import Aliases:**
+   - `@/` maps to `src/` directory
+   - Example: `import { Button } from "@/components/ui/button"`
+
+3. **Type Safety:**
+   - No `any` types without justification
+   - Interface for component props
+   - API response types in `lib/types.ts`
+
+4. **Error Handling:**
+   - 404 errors redirect to `/not-found` page via `Navigate` component
+   - Network errors gracefully handled with placeholder data
+   - Custom `ApiError` class captures status codes and endpoints
+   - Toast notifications for user actions (copy link, etc.)
+   - No retry on 404 to avoid unnecessary API calls
+
+5. **Performance:**
+   - React Query caching reduces API calls
+   - Skeleton loaders for better UX
+   - Lazy loading not yet implemented
+   - Code splitting via dynamic imports possible
+
+### Current Limitations & TODOs
+
+**Mock Data Dependencies:**
+Currently using mock data for:
+- Detailed statistics (success rate, partners, etc.)
+- User rankings and positions
+- Review system
+- Deal history and activities
+- Monthly charts
+- Top partners
+
+These will be replaced with real API endpoints as backend develops.
+
+**Missing Features:**
+- User authentication/login
+- Deal submission/confirmation flow
+- Review/rating submission
+- Admin dashboard
+- Search functionality
+- Filters and sorting
+
+### Custom Theme Colors
+
+Defined in `src/index.css`:
+
+```css
+--primary: 28 90% 61%        /* Orange (#ff944d) */
+--primary-light: 30 95% 70%  /* Light orange */
+--primary-dark: 25 85% 50%   /* Dark orange */
+
+--bg-darkest: 0 0% 8%        /* #141414 */
+--bg-darker: 0 0% 10%        /* #1a1a1a */
+--bg-base: 0 0% 12%          /* #1f1f1f */
+--bg-card: 0 0% 14%          /* #242424 */
+
+--badge-1: 140 100% 31%      /* Green (1 deal) */
+--badge-5: 140 100% 50%      /* Bright green (5 deals) */
+--badge-10: 140 100% 63%     /* Light green (10+ deals) */
+```
+
+### Vite Configuration
+
+- Server runs on port 8080
+- Host set to `::` (IPv6 dual-stack)
+- Path alias `@` → `./src`
+- SWC plugin for fast refresh
+- Component tagger in development mode only
+
+### Git Workflow
+
+- Main branch: `main`
+- Feature branches: `feat/*`
+- Bug fixes: `fix/*`
+- Never commit directly to main
+- All changes via pull requests
+- Railway auto-deploys on merge
+
+### Testing
+
+Currently no tests configured. Consider adding:
+- Vitest for unit tests
+- React Testing Library for component tests
+- Playwright/Cypress for E2E tests
+
+---
+
+**Last Updated:** 2025-11-18
+**Project Status:** Active Development
+**API Integration:** Partial (hybrid mock/real data)
+**Recent Changes:**
+- Connected to real API backend (feat/connect-real-api merged)
+- Implemented loading skeletons and error handling
+- Added custom ApiError class for better error tracking
+- Deployed on Vercel (nf-legit.me) with Railway backend
