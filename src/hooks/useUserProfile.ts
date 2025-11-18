@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
 import { getUserProfile } from '@/lib/api';
-import { mockUser } from '@/lib/mockData';
 import { transformUserProfile } from '@/lib/types';
 import type { UserProfile as FrontendUserProfile } from '@/lib/types';
 
@@ -11,8 +10,8 @@ export function useUserProfile(username: string) {
       // Récupérer les données de l'API
       const apiProfile = await getUserProfile(username);
 
-      // Transformer en combinant API + mock
-      const fullProfile = transformUserProfile(apiProfile, mockUser);
+      // Transformer avec 100% données API
+      const fullProfile = transformUserProfile(apiProfile);
 
       return fullProfile;
     },

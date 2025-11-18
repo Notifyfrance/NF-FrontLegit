@@ -7,6 +7,40 @@ export interface ApiBadge {
   icon: string;
 }
 
+export interface ApiDealHistory {
+  partnerId: string;
+  partnerUsername: string;
+  partnerAvatar: string;
+  object: string;
+  comment: string;
+  date: string;
+}
+
+export interface ApiTopPartner {
+  userId: string;
+  username: string;
+  avatar: string;
+  dealsCount: number;
+}
+
+export interface ApiRank {
+  position: number;
+  totalUsers: number;
+}
+
+export interface ApiDetailedStats {
+  confirmed: number;
+  pending: number;
+  successRate: number;
+  partnersCount: number;
+}
+
+export interface ApiKeyDates {
+  firstDeal: string;
+  lastDeal: string;
+  memberSince: string;
+}
+
 export interface ApiUserProfile {
   userId: string;
   username: string;
@@ -19,6 +53,11 @@ export interface ApiUserProfile {
   memberSince: string;
   lastActive: string;
   publicProfile: boolean;
+  rank: ApiRank;
+  detailedStats: ApiDetailedStats;
+  history: ApiDealHistory[];
+  topPartners: ApiTopPartner[];
+  keyDates: ApiKeyDates;
 }
 
 export interface ApiGlobalStats {
@@ -37,7 +76,7 @@ export interface ApiTopMember {
   };
 }
 
-// Types frontend (doit correspondre à mockUser)
+// Types frontend (100% données API réelles)
 export interface UserProfile {
   userId: string;
   username: string;
@@ -45,73 +84,54 @@ export interface UserProfile {
   avatar: string;
   stats: {
     totalDeals: number;
-    confirmedDeals: number;
-    pendingDeals: number;
-    disputedDeals: number;
+    confirmed: number;
+    pending: number;
     successRate: number;
-    uniquePartners: number;
-    averageDealsPerMonth: number;
-    rating: number;
-    reviewCount: number;
-    responseRate: number;
-    avgResponseTime: string;
-    lastActive: string;
-    reliability: number;
-    disputes: number;
+    partnersCount: number;
   };
-  badge: {
-    level: string;
-    text: string;
-    color: string;
-    icon: string;
-  };
+  badge: ApiBadge;
   ranking: {
     position: number;
     totalMembers: number;
-    badge: string;
   };
   keyDates: {
     firstDeal: string;
     lastDeal: string;
   };
   memberSince: string;
+  lastActive: string;
   publicProfile: boolean;
-  monthlyDealsData?: Array<{
-    month: string;
-    deals: number;
-  }>;
+  history: ApiDealHistory[];
+  topPartners: ApiTopPartner[];
 }
 
-// Fonction de transformation backend → frontend
-export function transformUserProfile(apiProfile: ApiUserProfile, mockStats: any): UserProfile {
+// Fonction de transformation backend → frontend (100% API)
+export function transformUserProfile(apiProfile: ApiUserProfile): UserProfile {
   return {
     userId: apiProfile.userId,
     username: apiProfile.username,
     displayName: apiProfile.displayName,
     avatar: apiProfile.avatar,
     stats: {
-      // Données réelles de l'API
       totalDeals: apiProfile.stats.totalDeals,
-      lastActive: apiProfile.lastActive,
-      // Données mock temporaires
-      confirmedDeals: mockStats.confirmedDeals,
-      pendingDeals: mockStats.pendingDeals,
-      disputedDeals: mockStats.disputedDeals,
-      successRate: mockStats.successRate,
-      uniquePartners: mockStats.uniquePartners,
-      averageDealsPerMonth: mockStats.averageDealsPerMonth,
-      rating: mockStats.rating,
-      reviewCount: mockStats.reviewCount,
-      responseRate: mockStats.responseRate,
-      avgResponseTime: mockStats.avgResponseTime,
-      reliability: mockStats.reliability,
-      disputes: mockStats.disputes,
+      confirmed: apiProfile.detailedStats.confirmed,
+      pending: apiProfile.detailedStats.pending,
+      successRate: apiProfile.detailedStats.successRate,
+      partnersCount: apiProfile.detailedStats.partnersCount,
     },
     badge: apiProfile.badge,
-    ranking: mockStats.ranking, // Temporaire - mock
-    keyDates: mockStats.keyDates, // Temporaire - mock
+    ranking: {
+      position: apiProfile.rank.position,
+      totalMembers: apiProfile.rank.totalUsers,
+    },
+    keyDates: {
+      firstDeal: apiProfile.keyDates.firstDeal,
+      lastDeal: apiProfile.keyDates.lastDeal,
+    },
     memberSince: apiProfile.memberSince,
+    lastActive: apiProfile.lastActive,
     publicProfile: apiProfile.publicProfile,
-    monthlyDealsData: mockStats.monthlyDealsData, // Temporaire - mock
+    history: apiProfile.history,
+    topPartners: apiProfile.topPartners,
   };
 }
