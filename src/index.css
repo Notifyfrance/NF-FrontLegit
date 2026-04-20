@@ -53,6 +53,8 @@
     --info: 220 100% 50%;            /* #0066ff */
 
     --border: 0 0% 25%;
+    --border-subtle: 0 0% 100%;      /* utiliser avec /8 pour rgba(255,255,255,0.08) */
+    --border-strong: 0 0% 100%;      /* utiliser avec /14 */
     --input: 0 0% 11%;
     --ring: 20 91% 60%;
 
@@ -105,6 +107,11 @@
   h1, h2, h3, h4, h5, h6 {
     @apply font-bold;
   }
+
+  .font-mono {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-variant-numeric: tabular-nums;
+  }
 }
 
 @layer utilities {
@@ -144,6 +151,29 @@
   }
 
   /* 🎭 ANIMATIONS */
+  @keyframes nf-glow {
+    0%, 100% { text-shadow: 0 0 18px rgba(240, 123, 60, 0.6); }
+    50%      { text-shadow: 0 0 32px rgba(240, 123, 60, 1); }
+  }
+
+  .animate-nf-glow {
+    animation: nf-glow 4s ease-in-out infinite;
+  }
+
+  @keyframes nf-fadeup {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-nf-glow { animation: none !important; }
+    [data-nf-animate], [data-nf-animate] * {
+      animation-duration: 0.01s !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01s !important;
+    }
+  }
+
   @keyframes float {
     0%, 100% { transform: translateY(0px); }
     50% { transform: translateY(-20px); }

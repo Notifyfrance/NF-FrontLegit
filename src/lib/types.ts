@@ -51,6 +51,7 @@ export interface ApiUserProfile {
   memberSince: string;
   lastActive: string;
   publicProfile: boolean;
+  hideDealsDetails?: boolean;
   rank: ApiRank;
   detailedStats: ApiDetailedStats;
   history: ApiDealHistory[];
@@ -61,6 +62,7 @@ export interface ApiUserProfile {
 export interface ApiGlobalStats {
   totalDeals: number;
   activeMembers: number;
+  totalGuildMembers: number | null;
 }
 
 export interface ApiTopMember {
@@ -99,6 +101,7 @@ export interface UserProfile {
   memberSince: string;
   lastActive: string;
   publicProfile: boolean;
+  hideDealsDetails: boolean;
   history: ApiDealHistory[];
   topPartners: ApiTopPartner[];
 }
@@ -129,6 +132,7 @@ export function transformUserProfile(apiProfile: ApiUserProfile): UserProfile {
     memberSince: apiProfile.memberSince,
     lastActive: apiProfile.lastActive,
     publicProfile: apiProfile.publicProfile,
+    hideDealsDetails: apiProfile.hideDealsDetails ?? false,
     history: apiProfile.history,
     topPartners: apiProfile.topPartners,
   };
