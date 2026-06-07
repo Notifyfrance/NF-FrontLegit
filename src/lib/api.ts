@@ -1,6 +1,7 @@
 // Client API pour NF-LegitCheck
 
 import type { ApiGlobalStats, ApiTopMember, ApiUserProfile } from './types';
+import { encodeProfileUsername } from './profile-url';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://api.nf-legit.me';
 
@@ -63,5 +64,5 @@ export async function getTopMembers(limit: number = 3): Promise<ApiTopMember[]> 
 }
 
 export async function getUserProfile(username: string): Promise<ApiUserProfile> {
-  return fetchApi<ApiUserProfile>(`/api/user/${username}`);
+  return fetchApi<ApiUserProfile>(`/api/user/${encodeProfileUsername(username)}`);
 }

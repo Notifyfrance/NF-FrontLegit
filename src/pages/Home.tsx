@@ -9,6 +9,7 @@ import { useCountUp } from "@/hooks/useCountUp";
 import { useGlobalStats } from "@/hooks/useGlobalStats";
 import { useTopMembers } from "@/hooks/useTopMembers";
 import { useUsernameSearch } from "@/hooks/useUsernameSearch";
+import { encodeProfileUsername } from "@/lib/profile-url";
 
 function HandUnderline({ width = 300 }: { width?: number }) {
   return (
@@ -251,7 +252,7 @@ function TopMemberRow({ member, index, mounted }: TopMemberRowProps) {
   const tier = tierFromCount(member.totalDeals);
   return (
     <Link
-      to={`/${encodeURIComponent(member.username)}`}
+      to={`/${encodeProfileUsername(member.username)}`}
       className="group grid grid-cols-[auto_1fr_auto] items-center gap-3.5 rounded-xl border border-white/[0.08] bg-bg-darkest px-4 py-3.5 transition-all duration-200 hover:-translate-y-px hover:border-primary/50 hover:shadow-[0_0_0_1px_rgba(240,123,60,0.25),0_10px_30px_rgba(240,123,60,0.15)]"
       style={{
         opacity: mounted ? 1 : 0,
