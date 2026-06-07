@@ -2,6 +2,7 @@ import { formatDistanceToNow } from "date-fns";
 import { fr } from "date-fns/locale";
 import { CheckCircle } from "lucide-react";
 import { Link } from "react-router-dom";
+import { encodeProfileUsername } from "@/lib/profile-url";
 
 interface DealHistoryItem {
   partnerUsername: string;
@@ -43,7 +44,7 @@ export function DealsHistory({ history }: DealsHistoryProps) {
           >
             <div className="flex items-start gap-3">
               <div className="mt-1 flex-shrink-0">
-                <Link to={`/${deal.partnerUsername}`}>
+                <Link to={`/${encodeProfileUsername(deal.partnerUsername)}`}>
                   <img
                     src={deal.partnerAvatar}
                     alt={deal.partnerUsername}
@@ -55,7 +56,7 @@ export function DealsHistory({ history }: DealsHistoryProps) {
               <div className="flex-1 min-w-0">
                 <div className="text-white text-sm md:text-base font-medium group-hover:text-primary transition-colors">
                   Deal avec{" "}
-                  <Link to={`/${deal.partnerUsername}`} className="hover:underline">
+                  <Link to={`/${encodeProfileUsername(deal.partnerUsername)}`} className="hover:underline">
                     @{deal.partnerUsername}
                   </Link>
                 </div>

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { encodeProfileUsername } from "@/lib/profile-url";
 
 interface TopPartner {
   username: string;
@@ -34,7 +35,7 @@ export function TopPartners({ partners }: TopPartnersProps) {
         {partners.map((partner, index) => (
           <Link
             key={partner.username}
-            to={`/${partner.username}`}
+            to={`/${encodeProfileUsername(partner.username)}`}
             className="flex items-center gap-3 bg-bg-darker rounded-xl p-3 hover:bg-bg-base hover:scale-105 transition-all duration-300 group"
           >
             <div className="relative flex-shrink-0">

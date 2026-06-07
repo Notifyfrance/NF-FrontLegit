@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Search } from "lucide-react";
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
+import { encodeProfileUsername } from "@/lib/profile-url";
 
 export default function ProfileNotFound() {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ export default function ProfileNotFound() {
     e.preventDefault();
     const trimmed = query.trim().replace(/^@/, "");
     if (!trimmed) return;
-    navigate(`/${encodeURIComponent(trimmed)}`);
+    navigate(`/${encodeProfileUsername(trimmed)}`);
   };
 
   return (

@@ -7,6 +7,7 @@ import { BadgeChip, getTierColor, tierFromCount } from "@/components/ui/badge-ch
 import { Skeleton } from "@/components/ui/skeleton";
 import { useCountUp } from "@/hooks/useCountUp";
 import { useUserProfile } from "@/hooks/useUserProfile";
+import { encodeProfileUsername } from "@/lib/profile-url";
 import type { UserProfile } from "@/lib/types";
 
 function fmt(n: number) {
@@ -198,7 +199,7 @@ function ProfileView({ user }: { user: UserProfile }) {
                 {user.topPartners.map((tp) => (
                   <Link
                     key={tp.username}
-                    to={`/${encodeURIComponent(tp.username)}`}
+                    to={`/${encodeProfileUsername(tp.username)}`}
                     className="flex items-center gap-3 rounded-[10px] border border-white/[0.08] bg-bg-darkest px-3 py-2.5 transition-all hover:-translate-y-px hover:border-primary/50 hover:shadow-[0_0_0_1px_rgba(240,123,60,0.2),0_10px_30px_rgba(240,123,60,0.12)]"
                   >
                     <img
@@ -343,7 +344,7 @@ function DealRow({ deal, index, mounted, masked }: DealRowProps) {
   const hiddenObject = masked || deal.object === "Masqué" || !deal.object;
   return (
     <Link
-      to={`/${encodeURIComponent(deal.partnerUsername)}`}
+      to={`/${encodeProfileUsername(deal.partnerUsername)}`}
       className="group relative grid grid-cols-[auto_1fr_auto] items-center gap-4 rounded-[10px] border border-white/[0.08] bg-bg-card px-4 py-3.5 pl-5 transition-all hover:translate-x-0.5 hover:border-primary/40 hover:bg-[rgba(240,123,60,0.04)]"
       style={{
         opacity: mounted ? 1 : 0,
